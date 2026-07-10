@@ -46,7 +46,7 @@
   color: var(--color-text-primary);
 }
 
-/* Header toolbar styling */
+/* Header toolbar styling here */
 .fc .fc-toolbar {
   margin-bottom: 1.5em;
   flex-wrap: wrap;
