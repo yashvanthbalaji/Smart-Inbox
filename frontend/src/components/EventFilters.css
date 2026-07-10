@@ -1,0 +1,132 @@
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+  min-width: 52px;
+}
+
+.filter-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Base pill style */
+.filter-pill {
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  transition: all 0.15s ease;
+}
+
+.filter-pill:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-text-secondary);
+}
+
+/* Active ALL pill */
+.filter-pill-type-all.active,
+.filter-pill-status-all.active {
+  background-color: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Active type pills */
+.filter-pill-type-meeting.active {
+  background-color: var(--type-meeting-bg);
+  border-color: var(--type-meeting-text);
+  color: var(--type-meeting-text);
+}
+
+.filter-pill-type-exam.active {
+  background-color: var(--type-exam-bg);
+  border-color: var(--type-exam-text);
+  color: var(--type-exam-text);
+}
+
+.filter-pill-type-deadline.active {
+  background-color: var(--type-deadline-bg);
+  border-color: var(--type-deadline-text);
+  color: var(--type-deadline-text);
+}
+
+.filter-pill-type-interview.active {
+  background-color: var(--type-interview-bg);
+  border-color: var(--type-interview-text);
+  color: var(--type-interview-text);
+}
+
+.filter-pill-type-reminder.active {
+  background-color: var(--type-reminder-bg);
+  border-color: var(--type-reminder-text);
+  color: var(--type-reminder-text);
+}
+
+.filter-pill-type-other.active {
+  background-color: var(--type-other-bg);
+  border-color: var(--type-other-text);
+  color: var(--type-other-text);
+}
+
+/* Active status pills */
+.filter-pill-status-pending.active {
+  background-color: var(--status-pending-bg);
+  border-color: var(--status-pending-text);
+  color: var(--status-pending-text);
+}
+
+.filter-pill-status-done.active {
+  background-color: var(--status-done-bg);
+  border-color: var(--status-done-text);
+  color: var(--status-done-text);
+}
+
+.filter-pill-status-snoozed.active {
+  background-color: var(--status-snoozed-bg);
+  border-color: var(--status-snoozed-text);
+  color: var(--status-snoozed-text);
+}
+
+@media (max-width: 480px) {
+  .filters-container {
+    padding: 12px 14px;
+    gap: 16px;
+  }
+
+  .filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .filter-label {
+    min-width: auto;
+  }
+}

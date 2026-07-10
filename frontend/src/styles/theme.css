@@ -1,0 +1,27 @@
+:root {
+  --color-bg: #f8fafc;              /* main page background, very light gray-white */
+  --color-surface: #ffffff;         /* cards, table, navbar background */
+  --color-border: #e2e8f0;          /* subtle borders */
+  --color-text-primary: #0f172a;    /* near-black main text */
+  --color-text-secondary: #64748b;  /* muted gray text */
+  --color-accent: #0ea5e9;          /* sky blue — primary buttons, active states, links */
+  --color-accent-hover: #0284c7;    /* darker sky blue for hover */
+  --color-accent-soft: #e0f2fe;     /* very light blue background for subtle highlights */
+
+  /* Type badge colors (soft background + solid text, not dark-mode neon) */
+  --type-meeting-bg: #dbeafe; --type-meeting-text: #1d4ed8;
+  --type-exam-bg: #fee2e2; --type-exam-text: #b91c1c;
+  --type-deadline-bg: #fce7f3; --type-deadline-text: #be185d;
+  --type-interview-bg: #ede9fe; --type-interview-text: #6d28d9;
+  --type-reminder-bg: #fef3c7; --type-reminder-text: #b45309;
+  --type-other-bg: #f1f5f9; --type-other-text: #475569;
+
+  /* Status badge colors */
+  --status-pending-bg: #f1f5f9; --status-pending-text: #475569;
+  --status-done-bg: #dcfce7; --status-done-text: #15803d;
+  --status-snoozed-bg: #f3f4f6; --status-snoozed-text: #6b7280;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --radius: 10px;
+}

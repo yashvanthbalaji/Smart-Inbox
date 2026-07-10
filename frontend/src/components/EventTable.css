@@ -1,0 +1,195 @@
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  margin-top: 24px;
+}
+
+.event-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.event-table th {
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.event-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+  color: var(--color-text-primary);
+}
+
+.event-row {
+  transition: background-color 0.2s ease;
+}
+
+.event-row:hover {
+  background-color: var(--color-bg);
+}
+
+.event-title-cell {
+  max-width: 300px;
+}
+
+.event-title {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.event-description {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event-location {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Badges Base */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Type Badge Colors */
+.badge-type-meeting {
+  background-color: var(--type-meeting-bg);
+  color: var(--type-meeting-text);
+  border: 1px solid var(--type-meeting-bg);
+}
+
+.badge-type-exam {
+  background-color: var(--type-exam-bg);
+  color: var(--type-exam-text);
+  border: 1px solid var(--type-exam-bg);
+}
+
+.badge-type-deadline {
+  background-color: var(--type-deadline-bg);
+  color: var(--type-deadline-text);
+  border: 1px solid var(--type-deadline-bg);
+}
+
+.badge-type-interview {
+  background-color: var(--type-interview-bg);
+  color: var(--type-interview-text);
+  border: 1px solid var(--type-interview-bg);
+}
+
+.badge-type-reminder {
+  background-color: var(--type-reminder-bg);
+  color: var(--type-reminder-text);
+  border: 1px solid var(--type-reminder-bg);
+}
+
+.badge-type-other {
+  background-color: var(--type-other-bg);
+  color: var(--type-other-text);
+  border: 1px solid var(--type-other-bg);
+}
+
+/* Status Badge Colors */
+.badge-status-pending {
+  background-color: var(--status-pending-bg);
+  color: var(--status-pending-text);
+  border: 1px solid var(--status-pending-bg);
+}
+
+.badge-status-done {
+  background-color: var(--status-done-bg);
+  color: var(--status-done-text);
+  border: 1px solid var(--status-done-bg);
+}
+
+.badge-status-snoozed {
+  background-color: var(--status-snoozed-bg);
+  color: var(--status-snoozed-text);
+  border: 1px solid var(--status-snoozed-bg);
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-action {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-action:active {
+  transform: scale(0.95);
+}
+
+.btn-done {
+  background-color: rgba(21, 128, 61, 0.08);
+  color: var(--status-done-text);
+  border: 1px solid rgba(21, 128, 61, 0.15);
+}
+
+.btn-done:hover {
+  background-color: rgba(21, 128, 61, 0.16);
+}
+
+.btn-snooze {
+  background-color: rgba(180, 83, 9, 0.08);
+  color: var(--type-reminder-text);
+  border: 1px solid rgba(180, 83, 9, 0.15);
+}
+
+.btn-snooze:hover {
+  background-color: rgba(180, 83, 9, 0.16);
+}
+
+.btn-delete {
+  background-color: rgba(185, 28, 28, 0.08);
+  color: var(--type-exam-text);
+  border: 1px solid rgba(185, 28, 28, 0.15);
+}
+
+.btn-delete:hover {
+  background-color: rgba(185, 28, 28, 0.16);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px !important;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .event-table {
+    min-width: 700px; /* prevent squishing of columns and force clean horizontal scroll */
+  }
+}

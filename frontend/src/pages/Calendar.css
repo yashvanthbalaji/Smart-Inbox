@@ -1,0 +1,236 @@
+/* Calendar page container styles */
+.calendar-page-container {
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  color: var(--color-text-primary);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.calendar-main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.calendar-header {
+  margin-bottom: 32px;
+}
+
+.calendar-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.calendar-subtitle {
+  color: var(--color-text-secondary);
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+/* FullCalendar Container - Dark Glassmorphism */
+.calendar-wrapper {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+}
+
+/* Overriding FullCalendar default light styles */
+.fc {
+  --fc-border-color: var(--color-border);
+  --fc-daygrid-event-dot-width: 8px;
+  --fc-page-bg-color: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+/* Header toolbar styling */
+.fc .fc-toolbar {
+  margin-bottom: 1.5em;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 1.5rem !important;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* Button styling overrides */
+.fc .fc-button-primary {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-secondary) !important;
+  font-weight: 600 !important;
+  text-transform: capitalize !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  transition: all 0.15s ease !important;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: var(--color-bg) !important;
+  color: var(--color-text-primary) !important;
+  border-color: var(--color-text-secondary) !important;
+}
+
+.fc .fc-button-primary:disabled {
+  background-color: var(--color-bg) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-secondary) !important;
+  opacity: 0.6;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background-color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 2px var(--color-accent-soft) !important;
+}
+
+.fc .fc-button-primary:focus {
+  box-shadow: 0 0 0 2px var(--color-accent-soft) !important;
+}
+
+/* Weekday column header styling */
+.fc th.fc-col-header-cell {
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  padding: 12px 0;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Day grid cells */
+.fc .fc-daygrid-day {
+  background-color: var(--color-surface);
+  transition: background-color 0.2s ease;
+}
+
+.fc .fc-daygrid-day:hover {
+  background-color: var(--color-bg);
+}
+
+/* Highlight today's date cell */
+.fc .fc-day-today {
+  background-color: var(--color-accent-soft) !important;
+}
+
+.fc .fc-day-today .fc-daygrid-day-number {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.fc .fc-daygrid-day-number {
+  color: var(--color-text-secondary);
+  padding: 8px 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none !important;
+}
+
+/* Other month days styling */
+.fc .fc-day-other {
+  opacity: 0.4;
+}
+
+/* Event Pill Styling */
+.fc-daygrid-event {
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  margin: 3px 6px !important;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid transparent !important;
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.15s ease;
+}
+
+.fc-daygrid-event:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.fc-event-title {
+  font-weight: 600 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Custom Event Types Styling corresponding to EventTable type badges */
+.fc-event-meeting {
+  background-color: var(--type-meeting-bg) !important;
+  color: var(--type-meeting-text) !important;
+  border-color: var(--type-meeting-bg) !important;
+}
+
+.fc-event-exam {
+  background-color: var(--type-exam-bg) !important;
+  color: var(--type-exam-text) !important;
+  border-color: var(--type-exam-bg) !important;
+}
+
+.fc-event-deadline {
+  background-color: var(--type-deadline-bg) !important;
+  color: var(--type-deadline-text) !important;
+  border-color: var(--type-deadline-bg) !important;
+}
+
+.fc-event-interview {
+  background-color: var(--type-interview-bg) !important;
+  color: var(--type-interview-text) !important;
+  border-color: var(--type-interview-bg) !important;
+}
+
+.fc-event-reminder {
+  background-color: var(--type-reminder-bg) !important;
+  color: var(--type-reminder-text) !important;
+  border-color: var(--type-reminder-bg) !important;
+}
+
+.fc-event-other {
+  background-color: var(--type-other-bg) !important;
+  color: var(--type-other-text) !important;
+  border-color: var(--type-other-bg) !important;
+}
+
+/* Hide event dot */
+.fc-daygrid-event-dot {
+  display: none !important;
+}
+
+.fc-event-time {
+  margin-right: 4px;
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+  .calendar-wrapper {
+    padding: 12px;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.2rem !important;
+  }
+
+  .fc .fc-button-primary {
+    padding: 6px 10px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .fc .fc-daygrid-day-number {
+    font-size: 0.8rem;
+    padding: 4px 6px;
+  }
+}
