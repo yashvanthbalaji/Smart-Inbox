@@ -8,10 +8,17 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 def create_app():
     app = Flask(__name__)
-    app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
     # Load configuration
     app.config.from_object(Config)
+
+    is_debug = os.environ.get('FLASK_DEBUG', 'False') == 'True' or app.debug
+    app.config.update(
+        SESSION_COOKIE_SAMESITE='None' if not is_debug else 'Lax',
+        SESSION_COOKIE_SECURE=not is_debug,
+        SESSION_COOKIE_HTTPONLY=True,
+    )
 
     print("=== DEBUG: SECRET_KEY set:", bool(app.config.get('SECRET_KEY')))
     print("=== DEBUG: SECRET_KEY value length:", len(app.config.get('SECRET_KEY', '')))
@@ -63,7 +70,6 @@ def create_app():
     import models
 
     # Set up Background Scheduler for Gmail polling
-    import os
     import atexit
     from apscheduler.schedulers.background import BackgroundScheduler
     from services.scheduler_jobs import poll_all_users
