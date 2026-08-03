@@ -2,6 +2,8 @@ import React from 'react';
 import './Landing.css';
 
 function Landing() {
+  const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const loginUrl = `${apiBaseUrl}/auth/google`;
   return (
     <div className="landing-page">
       {/* Top Header Navbar */}
@@ -23,7 +25,7 @@ function Landing() {
         </p>
 
         {/* Google OAuth Login Button */}
-        <a href="http://localhost:5000/api/auth/google" className="landing-cta-btn">
+        <a href={loginUrl} className="landing-cta-btn">
           {/* SVG Google "G" Logo */}
           <svg className="google-icon-svg" viewBox="0 0 24 24">
             <path
