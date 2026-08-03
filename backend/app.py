@@ -25,8 +25,15 @@ def create_app():
 
 
     # Configure SQLAlchemy
-    app.config['SQLALCHEMY_DATABASE_URI'] = app.config.get('DATABASE_URL')
+    db_url = app.config.get('DATABASE_URL', '')
+    if db_url and db_url.startswith('postgres://'):
+        db_url = db_url.replace('postgres://', 'postgresql://', 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_pre_ping': True,
+        'pool_recycle': 300,
+    }
 
     # Bind all extensions to the Flask app
     db.init_app(app)
