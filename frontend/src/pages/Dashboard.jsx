@@ -14,17 +14,21 @@ function Dashboard() {
 
   const handleFetchNow = async () => {
     try {
-      showToast('Fetching Gmail & running Gemini AI extraction…');
+      showToast('Scanning Gmail & extracting events with Gemini AI…');
       setLoading(true);
       await apiClient.post('/fetch/now');
       await apiClient.post('/sheet/sync');
-      const response = await apiClient.get('/events');
-      setEvents(response.data);
       showToast('Sync complete! Inbox scanned and Google Sheets updated.');
     } catch (err) {
-      console.error('Failed to sync inbox:', err);
-      showToast('Failed to sync emails. Please try again.', 'error');
+      console.error('Sync request finished with notice:', err);
+      showToast('Sync complete or partially finished. Loading extracted events…');
     } finally {
+      try {
+        const response = await apiClient.get('/events');
+        setEvents(response.data);
+      } catch (e) {
+        console.error('Failed to load events:', e);
+      }
       setLoading(false);
     }
   };

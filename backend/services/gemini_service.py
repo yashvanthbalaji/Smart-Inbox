@@ -21,7 +21,7 @@ except Exception as e:
     print(f"Error listing models: {e}")
 print("=====================================")
 
-PRIMARY_MODEL = 'models/gemma-4-31b-it'
+PRIMARY_MODEL = 'models/gemini-2.5-flash'
 FALLBACK_MODEL = 'models/gemini-3.1-flash-lite'
 
 print(f"Selected PRIMARY_MODEL: {PRIMARY_MODEL}")
