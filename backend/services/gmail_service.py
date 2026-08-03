@@ -107,16 +107,19 @@ def fetch_new_emails(user):
         
         # 1. Determine time window
         if profile.gmail_last_check:
-            start_time = profile.gmail_last_check
+            # Always look back at least 24h in case of missed runs
+            min_lookback = datetime.utcnow() - timedelta(hours=24)
+            start_time = min(profile.gmail_last_check, min_lookback)
         else:
-            start_time = datetime.utcnow() - timedelta(days=1)
+            # First ever run: fetch last 7 days so no emails are missed
+            start_time = datetime.utcnow() - timedelta(days=7)
             
         # Convert start_time to unix timestamp (UTC-aware conversion to timestamp)
         unix_timestamp = int(start_time.replace(tzinfo=timezone.utc).timestamp())
         
-        # 2. Build search query
-        keywords = "(meeting OR exam OR deadline OR interview OR schedule OR test)"
-        query = f"after:{unix_timestamp} {keywords}"
+        # 2. Build search query — fetch ALL emails in window, Gemini decides relevance
+        # No keyword filter: broad fetch lets AI extract events from any email
+        query = f"after:{unix_timestamp} -category:promotions -category:social"
         
         # 3. Call Gmail list API
         results = service.users().messages().list(userId='me', q=query).execute()

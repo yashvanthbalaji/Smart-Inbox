@@ -16,4 +16,21 @@ export function setAuthToken(token) {
   }
 }
 
+// Intercept 401 Unauthorized responses — token expired or invalid.
+// Clear session and redirect to landing page so user can re-authenticate.
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      sessionStorage.removeItem('token');
+      delete apiClient.defaults.headers.common['Authorization'];
+      // Only redirect if not already on the landing page
+      if (!window.location.pathname || window.location.pathname !== '/') {
+        window.location.href = '/';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default apiClient;
