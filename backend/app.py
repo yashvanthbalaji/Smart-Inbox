@@ -69,6 +69,17 @@ def create_app():
     # Import models to register them with SQLAlchemy
     import models
 
+    # Ensure database tables exist automatically on startup
+    with app.app_context():
+        try:
+            from flask_migrate import upgrade
+            upgrade()
+            print("[DB MIGRATION] Database schema upgraded successfully via Flask-Migrate.")
+        except Exception as e:
+            print(f"[DB MIGRATION] Flask-Migrate upgrade notice ({e}), running db.create_all().")
+            db.create_all()
+            print("[DB MIGRATION] All tables created successfully via db.create_all().")
+
     # Set up Background Scheduler for Gmail polling
     import atexit
     from apscheduler.schedulers.background import BackgroundScheduler
