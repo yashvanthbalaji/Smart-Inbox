@@ -12,6 +12,23 @@ function Dashboard() {
   const [activeStatus, setActiveStatus] = useState('ALL');
   const [toast, setToast] = useState(null);
 
+  const handleFetchNow = async () => {
+    try {
+      showToast('Fetching Gmail & running Gemini AI extraction…');
+      setLoading(true);
+      await apiClient.post('/fetch/now');
+      await apiClient.post('/sheet/sync');
+      const response = await apiClient.get('/events');
+      setEvents(response.data);
+      showToast('Sync complete! Inbox scanned and Google Sheets updated.');
+    } catch (err) {
+      console.error('Failed to sync inbox:', err);
+      showToast('Failed to sync emails. Please try again.', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -19,6 +36,14 @@ function Dashboard() {
         setError(null);
         const response = await apiClient.get('/events');
         setEvents(response.data);
+        // If 0 events found on initial load, trigger auto-fetch once
+        if (response.data.length === 0) {
+          showToast('Scanning your Gmail for events…');
+          await apiClient.post('/fetch/now');
+          await apiClient.post('/sheet/sync');
+          const refreshed = await apiClient.get('/events');
+          setEvents(refreshed.data);
+        }
       } catch (err) {
         console.error('Failed to fetch events:', err);
         setError('Failed to load events. Please try refreshing the page.');
@@ -177,32 +202,56 @@ function Dashboard() {
               {loading ? 'Fetching your extracted events…' : `${events.length} event${events.length !== 1 ? 's' : ''} extracted from your inbox`}
             </p>
           </div>
-          {!loading && !error && events.length > 0 && (
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginTop: '6px' }}>
             <button
-              onClick={handleExportPDF}
-              className="btn-export-pdf"
+              onClick={handleFetchNow}
+              disabled={loading}
               style={{
                 padding: '10px 20px',
-                backgroundColor: 'var(--color-accent)',
+                backgroundColor: '#10b981',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '8px',
                 fontWeight: '600',
-                cursor: 'pointer',
+                cursor: loading ? 'not-allowed' : 'pointer',
                 fontSize: '0.9rem',
                 boxShadow: 'var(--shadow-sm)',
                 transition: 'all 0.2s ease',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                marginTop: '6px'
+                opacity: loading ? 0.7 : 1
               }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--color-accent-hover)'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--color-accent)'}
             >
-              <span>📥</span> Export PDF
+              <span>🔄</span> {loading ? 'Syncing...' : 'Sync Inbox & Sheets'}
             </button>
-          )}
+
+            {!loading && !error && events.length > 0 && (
+              <button
+                onClick={handleExportPDF}
+                className="btn-export-pdf"
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: 'var(--color-accent)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  boxShadow: 'var(--shadow-sm)',
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--color-accent-hover)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--color-accent)'}
+              >
+                <span>📥</span> Export PDF
+              </button>
+            )}
+          </div>
         </div>
 
         {renderContent()}
