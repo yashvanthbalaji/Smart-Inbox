@@ -6,6 +6,10 @@ from config import Config
 
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+# Module-level flag — prevents duplicate scheduler starts if gunicorn
+# restarts a worker or create_app() is called more than once per process.
+_scheduler_started = False
+
 def create_app():
     app = Flask(__name__)
     app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
@@ -92,23 +96,30 @@ def create_app():
     from apscheduler.schedulers.background import BackgroundScheduler
     from services.scheduler_jobs import poll_all_users
 
-    # Guard: only run the scheduler in the main reloader process (if debug mode is active)
-    # or when debug mode is entirely disabled, to avoid starting duplicate schedulers.
-    if os.environ.get('WERKZEUG_RUN_MAIN') == 'true' or not app.debug:
-        scheduler = BackgroundScheduler()
+    global _scheduler_started
+
+    if _scheduler_started:
+        # Belt-and-suspenders: if gunicorn/werkzeug somehow calls create_app()
+        # more than once in the same process, bail out immediately.
+        print(f"[SCHEDULER] Duplicate start attempt detected in PID {os.getpid()} — skipping.")
+    else:
+        scheduler = BackgroundScheduler(daemon=True)
         scheduler.add_job(
             func=poll_all_users,
             args=[app],
             trigger="interval",
             minutes=15,
-            id="poll_all_users_job"
+            id="poll_all_users_job",
+            max_instances=1,
+            coalesce=True
         )
         scheduler.start()
-        print("[SCHEDULER] Background scheduler started successfully.")
+        _scheduler_started = True
+        print(f"[SCHEDULER] Background scheduler started in PID {os.getpid()}.")
         print(f"[SCHEDULER] Scheduled jobs: {scheduler.get_jobs()}")
-        
+
         # Shut down the scheduler cleanly when the app process exits
-        atexit.register(lambda: scheduler.shutdown())
+        atexit.register(lambda: scheduler.shutdown(wait=False))
 
     return app
 
