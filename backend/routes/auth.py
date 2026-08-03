@@ -1,5 +1,5 @@
 import logging
-from flask import Blueprint, request, redirect, current_app, jsonify
+from flask import Blueprint, request, redirect, current_app, jsonify, url_for
 from flask_jwt_extended import create_access_token
 from extensions import oauth, db
 from models import User, UserProfile
@@ -8,7 +8,7 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 @auth_bp.route('/google')
 def google_login():
-    redirect_uri = 'http://localhost:5000/api/auth/callback'
+    redirect_uri = url_for('auth.google_callback', _external=True)
     return oauth.google.authorize_redirect(redirect_uri, access_type='offline', prompt='consent')
 
 

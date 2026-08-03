@@ -4,8 +4,11 @@ from flask_cors import CORS
 from extensions import db, migrate, jwt, oauth
 from config import Config
 
+from werkzeug.middleware.proxy_fix import ProxyFix
+
 def create_app():
     app = Flask(__name__)
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
     # Load configuration
     app.config.from_object(Config)
