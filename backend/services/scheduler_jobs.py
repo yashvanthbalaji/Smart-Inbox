@@ -19,6 +19,9 @@ def poll_all_users(app):
 
     with app.app_context():
         try:
+            # Clean up any stale session state from previous thread runs
+            db.session.remove()
+
             # Query users who have sync_mode active ('APP' or 'SHEETS_ONLY')
             users = User.query.join(UserProfile).filter(
                 UserProfile.sync_mode.in_(["APP", "SHEETS_ONLY"])
@@ -72,6 +75,8 @@ def poll_all_users(app):
             print(f"[SCHEDULER] [CRITICAL] {error_msg}")
             traceback.print_exc()
             errors.append(error_msg)
+        finally:
+            db.session.remove()
 
     return {
         "users_processed": total_users_processed,
