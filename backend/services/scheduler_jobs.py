@@ -1,3 +1,4 @@
+import gc
 import traceback
 from extensions import db
 from models import User, UserProfile
@@ -66,6 +67,8 @@ def poll_all_users(app):
                     print(f"[SCHEDULER] [ERROR] {error_msg}")
                     traceback.print_exc()
                     errors.append(error_msg)
+                finally:
+                    db.session.remove()
 
             print(f"[SCHEDULER] Finished polling job.")
             print(f"[SCHEDULER] SUMMARY: Users processed: {total_users_processed}, Emails fetched: {total_emails_fetched}, Events created: {total_events_created}, Errors: {len(errors)}")
@@ -77,6 +80,8 @@ def poll_all_users(app):
             errors.append(error_msg)
         finally:
             db.session.remove()
+            gc.collect()
+            print("[SCHEDULER] Cleaned session state and invoked explicit garbage collection.")
 
     return {
         "users_processed": total_users_processed,

@@ -26,6 +26,9 @@ FALLBACK_MODEL = 'models/gemini-3.1-flash-lite'
 
 print(f"[CONFIG CHECK] Using PRIMARY_MODEL={PRIMARY_MODEL}, FALLBACK_MODEL={FALLBACK_MODEL}")
 
+# Track in-memory retry counts per email ID to prevent infinite retry loops on unprocessable emails
+_FAILED_EMAIL_RETRIES = {}
+
 def extract_events_from_email(subject, body):
     """
     [Legacy] Uses Gemini to extract structured events from an email's subject and body.
@@ -96,7 +99,7 @@ Emails in this batch:
 """
 
     for email in emails:
-        prompt += f"\n---\nEmail ID: {email['id']}\nSubject: {email['subject']}\nBody: {email['body'][:1500]}\n---\n"
+        prompt += f"\n---\nEmail ID: {email['id']}\nSubject: {email['subject']}\nBody: {email['body'][:800]}\n---\n"
 
     try:
         print(f"[AI] Calling {model_name} for batch extraction of {len(emails)} emails...")
@@ -240,7 +243,20 @@ def process_unprocessed_emails(user, batch_size=8):
             result = process_emails_batch(batch_input)
 
             if result is None:
-                print(f"[AI] Batch {chunk_index + 1} failed validation on both models — skipping (emails left unprocessed).")
+                print(f"[AI] Batch {chunk_index + 1} failed validation on both models.")
+                # Track retry attempts for each email in this failed chunk
+                for email in chunk:
+                    _FAILED_EMAIL_RETRIES[email.id] = _FAILED_EMAIL_RETRIES.get(email.id, 0) + 1
+                    if _FAILED_EMAIL_RETRIES[email.id] >= 3:
+                        print(f"[AI] Giving up on email ID {email.id} after 3 failed extraction attempts. Marking processed=True.")
+                        email.processed = True
+                        db.session.add(email)
+                        total_processed += 1
+                try:
+                    db.session.commit()
+                except Exception as e_retry_commit:
+                    db.session.rollback()
+                    print(f"[AI] Failed committing max-retry updates: {e_retry_commit}")
                 continue
 
             # Build a lookup: email_id -> RawEmail object
@@ -275,8 +291,9 @@ def process_unprocessed_emails(user, batch_size=8):
                     except Exception as e_event:
                         print(f"[AI] Error creating ExtractedEvent for email_id {email_id}: {e_event}")
 
-                # Mark email as processed
+                # Mark email as processed and clear any recorded failed retry count
                 raw_email.processed = True
+                _FAILED_EMAIL_RETRIES.pop(raw_email.id, None)
                 total_processed += 1
 
             # Commit after each chunk so partial progress is saved
