@@ -10,6 +10,25 @@ from services.sheets_service import sync_all_unsynced_events
 dashboard_bp = Blueprint('dashboard', __name__, url_prefix='/api')
 
 
+@dashboard_bp.route('/me', methods=['GET'])
+@jwt_required()
+def get_current_user_info():
+    """Returns basic profile information (name, email) for current JWT user."""
+    try:
+        user_id = get_jwt_identity()
+        user = User.query.get(int(user_id))
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+        return jsonify({
+            "id": user.id,
+            "name": user.name or "User",
+            "email": user.email
+        }), 200
+    except Exception as e:
+        logging.error(f"Error fetching current user info: {str(e)}", exc_info=True)
+        return jsonify({"error": "Failed to fetch user info", "details": str(e)}), 500
+
+
 @dashboard_bp.route('/fetch/now', methods=['POST'])
 @jwt_required()
 def trigger_fetch_now():

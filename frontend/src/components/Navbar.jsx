@@ -40,11 +40,11 @@ function Navbar() {
             Calendar
           </NavLink>
           <NavLink 
-            to="/dashboard/emails" 
+            to="/dashboard/profile" 
             className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
             onClick={() => setMenuOpen(false)}
           >
-            Emails
+            Profile
           </NavLink>
           <NavLink 
             to="/dashboard/settings" 

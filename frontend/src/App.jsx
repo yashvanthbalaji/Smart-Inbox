@@ -6,7 +6,7 @@ import Landing from './pages/Landing';
 import AuthSuccess from './pages/AuthSuccess';
 import Dashboard from './pages/Dashboard';
 import Calendar from './pages/Calendar';
-import Emails from './pages/Emails';
+import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
           {/* Protected routes — redirect to "/" if not authenticated */}
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/dashboard/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
-          <Route path="/dashboard/emails" element={<ProtectedRoute><Emails /></ProtectedRoute>} />
+          <Route path="/dashboard/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/dashboard/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
