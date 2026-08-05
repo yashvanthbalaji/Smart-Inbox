@@ -21,11 +21,10 @@ except Exception as e:
     print(f"Error listing models: {e}")
 print("=====================================")
 
-PRIMARY_MODEL = 'models/gemini-2.0-flash'
-FALLBACK_MODEL = 'models/gemini-1.5-flash'
+PRIMARY_MODEL = 'models/gemma-4-31b-it'
+FALLBACK_MODEL = 'models/gemini-3.1-flash-lite'
 
-print(f"Selected PRIMARY_MODEL: {PRIMARY_MODEL}")
-print(f"Selected FALLBACK_MODEL: {FALLBACK_MODEL}")
+print(f"[CONFIG CHECK] Using PRIMARY_MODEL={PRIMARY_MODEL}, FALLBACK_MODEL={FALLBACK_MODEL}")
 
 def extract_events_from_email(subject, body):
     """
