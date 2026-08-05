@@ -80,7 +80,11 @@ Students miss real opportunities — interview calls, exam notices, registration
 ## 🖥️ Screenshots
 
 <div align="center">
-<i>Add screenshots here: landing page, dashboard with real events, calendar view, Google Sheet sync</i>
+  <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f060a5ba-1ef5-49b1-bfc5-3742d69c669f" />
+  <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/87cae111-18a0-4aa1-9680-6c68244431f0" />
+  <img width="1176" height="801" alt="image" src="https://github.com/user-attachments/assets/9ec38470-f8d9-482d-a156-151972403a7d" />
+  <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/04f9cbf7-3677-4e50-a11e-234a4425d76d" />
+
 </div>
 
 ## 🚀 Live Links
