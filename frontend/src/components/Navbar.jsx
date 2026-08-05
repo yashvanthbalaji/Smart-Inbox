@@ -47,11 +47,11 @@ function Navbar() {
             Profile
           </NavLink>
           <NavLink 
-            to="/dashboard/settings" 
+            to="/dashboard/sheet" 
             className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
             onClick={() => setMenuOpen(false)}
           >
-            Settings
+            Google Sheet
           </NavLink>
         </div>
       </div>

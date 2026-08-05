@@ -142,10 +142,10 @@ function Settings() {
       <Navbar />
       <div className="settings-content">
         <h1 className="settings-title">
-          Settings
+          Google Sheet
         </h1>
         <p className="settings-subtitle">
-          Manage your synchronization mode and configurations.
+          View your live spreadsheet tracker or manually sync extracted events.
         </p>
 
         {/* Google Sheets Card */}
